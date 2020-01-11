@@ -2,9 +2,8 @@ import React, { useRef, useEffect } from 'react';
 
 import useField from './useField'
 
-export default function Input({ name, ...rest }) {
+export default function Input({ label, name, multiline = false, ...rest }) {
     const ref = useRef();
-
     const { defaultValue, fieldName, registerField, error } = useField(name);
 
     useEffect(() => {
@@ -16,6 +15,7 @@ export default function Input({ name, ...rest }) {
     const props = {
         ...rest,
         ref,
+        'aria-label': fieldName,
         name: fieldName,
         id:fieldName,
         defaultValue
@@ -23,8 +23,15 @@ export default function Input({ name, ...rest }) {
 
     return (
         <>
-            <input {...props} />
-            {error && (<span>{error}</span>)}
+        {label && <label htmlFor={fieldName}>{label}</label>}
+
+        {multiline ? (
+          <textarea {...props} />
+        ) : (
+          <input {...props} />
+        )}
+
+        {error && (<span>{error}</span>)}
         </>
     );
 }

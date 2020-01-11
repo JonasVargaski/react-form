@@ -1,25 +1,34 @@
-import React from 'react';
+import React  from 'react';
+import * as Yup from 'yup';
 
-import Form from './compoennts/Form';
-import Input from './compoennts/Input';
+import './app.css'
+
+import Form from './components/Form';
+import Input from './components/Input';
 
 function App() {
 
+  const schema = Yup.object().shape({
+    name: Yup.string().min(5),
+    lastName: Yup.string().min(10),
+  })
+
   const initialData = {
-    nome: "jonas",
-    sobrenome: 'Vargaski'
+    name: "Jonas",
+    lastName: 'Vargaski'
   }
 
-  function submit(data) {
-    console.log(data)
+  function submit(data, { resetForm }) {
+    alert(JSON.stringify(data))
+    resetForm({ name: 'Other' })
   }
 
   return (
-    <div className="App">
-      <Form onSubmit={submit} initialData={initialData}>
-        <Input name="nome" />
-        <Input name="sobrenome" />
-        <button type="submit">Salvar</button>
+    <div className="container">
+      <Form onSubmit={submit} schema={schema} initialData={initialData}>
+        <Input label="Name" name="name" />
+        <Input label="Last name" name="lastName" />
+        <button type="submit">Save</button>
       </Form>
     </div>
   );

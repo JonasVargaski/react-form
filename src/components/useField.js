@@ -13,13 +13,10 @@ export default function useField(name) {
 
   useEffect(() => () => unregisterField(name), [name, unregisterField]);
 
-  const defaultValue = initialData[name];
-  const error = errors[name];
-
   return {
     fieldName: name,
+    defaultValue: initialData[name],
+    error: errors[name],
     registerField,
-    defaultValue,
-    error,
   };
 }
